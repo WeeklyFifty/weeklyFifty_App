@@ -1,0 +1,21 @@
+# lefthook.yml
+# Ported from arch §20.3 with npm run commands (D1 / C7).
+# Pre-commit: lint + format staged TS/TSX files.
+# Pre-push: full typecheck + test run.
+
+pre-commit:
+  parallel: true
+  commands:
+    lint:
+      glob: "*.{ts,tsx}"
+      run: npx eslint {staged_files}
+    format:
+      glob: "*.{ts,tsx,json,md}"
+      run: npx prettier --check {staged_files}
+
+pre-push:
+  commands:
+    typecheck:
+      run: npm run typecheck
+    test:
+      run: npm test -- --bail --silent
